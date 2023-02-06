@@ -49,7 +49,7 @@ line-height: 28px;
 }
 
 .close {
-  background-image: url(/icon-x.png);
+  background-image: url(icon-x.png);
   background-size: contain;
   background-repeat: no-repeat;
   width: 42px;
