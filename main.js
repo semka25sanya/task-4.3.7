@@ -27,13 +27,13 @@ function createChosenRepo(info){
   let chosenItem = document.createElement('div')
   chosenItem.classList.add('chosenItem')
  let chosenItemName = document.createElement('p')
- chosenItemName.innerText = `Name: ${name}`
+ chosenItemName.textContent = `Name: ${name}`
  chosenItem.appendChild(chosenItemName)
  let chosenItemOwner = document.createElement('p')
- chosenItemOwner.innerText =  `Owner: ${owner}`
+ chosenItemOwner.textContent =  `Owner: ${owner}`
  chosenItem.appendChild(chosenItemOwner)
  let chosenItemStars = document.createElement('p')
- chosenItemStars.innerText =  `Stars: ${stars}`
+ chosenItemStars.textContent =  `Stars: ${stars}`
  chosenItem.appendChild(chosenItemStars )
  let close = document.createElement('div')
  close.classList.add('close')
@@ -41,12 +41,9 @@ function createChosenRepo(info){
  chosensRepo.appendChild(chosenItem)
 }
 
-async function getRepositories(){
-  let val = searchInp.value;
+async function getRepositories(val){
   if (val == "") return removeRepositories()
  
-  
-
   try {
     let response = await fetch(`https://api.github.com/search/repositories?q=${val}`)
     if (response.ok){
@@ -61,7 +58,7 @@ return err
 }
 
 function removeRepositories(){
-repoContainer.innerHTML = ''
+repoContainer.textContent = ''
 }
 
 function createNewRepoItem(name, owner, stars){
@@ -69,7 +66,7 @@ function createNewRepoItem(name, owner, stars){
   item.classList.add('item')
   item.setAttribute("data-owner", `${owner}`);
   item.setAttribute("data-stars", `${stars}`);
-  item.innerHTML = `${name}`
+  item.textContent = `${name}`
   repoContainer.appendChild(item)
 }
 
@@ -97,8 +94,11 @@ function debounce (fn, debounceTime) {
   };
 
 const getRepositoriesWithDebounce = debounce(getRepositories, 500);
-searchInp.addEventListener("input", getRepositoriesWithDebounce);
 
+
+searchInp.addEventListener("input", async () => {
+  await getRepositoriesWithDebounce(searchInp.value)
+});
 
 
 
